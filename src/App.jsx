@@ -2,26 +2,60 @@ import { useState } from "react";
 import AddTask from "./AddTask";
 import { initialTasks } from "./data/data";
 import TaskList from "./TaskList";
+import { nextId } from "./Utils";
 
 function App() {
   const [tasks, setTasks] = useState(initialTasks);
 
-  const nextId = (tasks) => {
-    const next = tasks.reduce((prev, next) => {
-      return prev && prev.id < next.id ? prev.id : next.id;
-    });
-
-    return next + 1;
+  const handleAddTask = (text) => {
+    setTasks([
+      ...tasks,
+      {
+        id: nextId(tasks),
+        text: text,
+        done: false,
+      },
+    ]);
   };
 
-  const handleAddTask = (text) => {};
+  const handleDelete = (taskId) => {
+    const deletedId = tasks.filter((item) => item.id !== taskId);
+    setTasks(deletedId);
+  };
+
+  const handleCheckBox = (taskId, checkedStatus) => {
+    setTasks((prev) =>
+      prev.map((item) =>
+        item.id === taskId ? { ...item, done: checkedStatus } : item
+      )
+    );
+  };
+
+  const handleInput = (taskId, e)=>{
+    setTasks((prev)=>
+      prev.map(item=> 
+        item.id === taskId ? 
+        {...item, text : e} :
+        item
+
+      )
+    )
+  
+   
+    
+  }
 
   return (
     <>
       <h2>Prague itinerary</h2>
 
       <AddTask onAddTask={handleAddTask} />
-      <TaskList tasks={tasks} />
+      <TaskList
+        tasks={tasks}
+        onDelete={handleDelete}
+        onCheckBox={handleCheckBox}
+        onSave={handleInput}
+      />
     </>
   );
 }

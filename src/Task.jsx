@@ -1,26 +1,22 @@
 import { useState } from "react";
 
-export default function Task({ task ,onSave}) {
-  const [isEdit, setIsEdit] = useState(true);
-
-  
+export default function Task({ task, onSave, onDelete, onCheckBox }) {
+  const [isEdit, setIsEdit] = useState(false);
 
   const handleEdit = () => {
     setIsEdit(!isEdit);
   };
 
-
-
   let textContent;
 
-  if (isEdit) {
+  if (!isEdit) {
     textContent = (
       <>
         <li>
-          <input type="checkbox" />
+          <input onChange={(e)=>onCheckBox(task.id, e.target.checked)} type="checkbox" checked = {task.done}/>
           {task.text}
           <button onClick={handleEdit}>Edit</button>
-          <button>Delete</button>
+          <button onClick = {()=>onDelete(task.id)}>Delete</button>
         </li>
       </>
     );
@@ -28,10 +24,10 @@ export default function Task({ task ,onSave}) {
     textContent = (
       <>
         <li>
-          <input type="checkbox" />
-          <input type="text" value={task.text} onChange={(e)=>onSave(e)} />
+          <input onChange={(e)=>onCheckBox(task.id, e.target.checked)} type="checkbox" checked = {task.done}/>
+          <input type="text" value={task.text} onChange={(e)=>onSave(task.id, e.target.value)} />
           <button onClick={handleEdit}>Save</button>
-          <button>Delete</button>
+          <button onClick = {()=>onDelete(task.id)}>Delete</button>
         </li>
       </>
     );
