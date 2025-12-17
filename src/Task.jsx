@@ -22,7 +22,7 @@ export default function Task({ task, onSave, onDelete, onCheckBox }) {
         <input
           type="text"
           value={task.text}
-          onChange={(e) => onSave(task.id, e.target.value)}
+          onChange={(e) => onCheckBox({...task, text : e.target.value})}
         />
         <button onClick={handleEdit}>Save</button>
       </>
@@ -33,7 +33,7 @@ export default function Task({ task, onSave, onDelete, onCheckBox }) {
     <>
       <li>
         <input
-          onChange={(e) => onCheckBox(task.id, e.target.checked)}
+          onChange={(e) => onCheckBox({...task, done : e.target.checked})}
           type="checkbox"
           checked={task.done}
         />

@@ -23,27 +23,33 @@ function App() {
     setTasks(deletedId);
   };
 
-  const handleCheckBox = (taskId, checkedStatus) => {
-    setTasks((prev) =>
-      prev.map((item) =>
-        item.id === taskId ? { ...item, done: checkedStatus } : item
-      )
-    );
+  // const handleCheckBox = (taskId, checkedStatus) => {
+  //   setTasks((prev) =>
+  //     prev.map((item) =>
+  //       item.id === taskId ? { ...item, done: checkedStatus } : item
+  //     )
+  //   );
+  // };
+
+
+   const handleCheckBox = (task) => {
+      const nextTask = tasks.map((item)=>(
+        item.id === task.id ? task : item
+      ))
+
+      setTasks(nextTask)
   };
 
-  const handleInput = (taskId, e)=>{
-    setTasks((prev)=>
-      prev.map(item=> 
-        item.id === taskId ? 
-        {...item, text : e} :
-        item
+  // const handleInput = (taskId, e)=>{
+  //   setTasks((prev)=>
+  //     prev.map(item=> 
+  //       item.id === taskId ? 
+  //       {...item, text : e} :
+  //       item
 
-      )
-    )
-  
-   
-    
-  }
+  //     )
+  //   )    
+  // }
 
   return (
     <>
@@ -54,7 +60,7 @@ function App() {
         tasks={tasks}
         onDelete={handleDelete}
         onCheckBox={handleCheckBox}
-        onSave={handleInput}
+        // onSave={handleInput}
       />
     </>
   );
