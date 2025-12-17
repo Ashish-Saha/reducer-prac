@@ -1,8 +1,18 @@
-export default function AddTask(){
+
+import {useState} from 'react'
+
+export default function AddTask({onAddTask}){
+
+    const [inputText, setInputText] = useState('')
+
+    const handleInput = (e)=>{
+        setInputText(e.target.value)
+    }
+
     return (
         <>
-            <input type="text" placeholder= "Add Task" />
-            <button>Add</button>
+            <input onChange={handleInput} value={inputText} type="text" placeholder= "Add Task" />
+            <button onClick={()=>onAddTask(inputText)}>Add</button>
             <br /> 
         </>
     );
