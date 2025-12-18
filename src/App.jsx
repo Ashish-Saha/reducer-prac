@@ -1,26 +1,29 @@
-import { useState } from "react";
+import { useState, useReducer } from "react";
 import AddTask from "./AddTask";
 import { initialTasks } from "./data/data";
 import TaskList from "./TaskList";
-import { nextId } from "./Utils";
+// import { nextId } from "./Utils";
+import { TaskReducer } from "./reducers/TaskReducer";
 
 function App() {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, dispatch] = useReducer(TaskReducer, initialTasks);
 
   const handleAddTask = (text) => {
-    setTasks([
-      ...tasks,
-      {
-        id: nextId(tasks),
-        text: text,
-        done: false,
-      },
-    ]);
+      dispatch(
+        {
+          type : "AddTask",
+          text,
+        }
+      )
   };
 
   const handleDelete = (taskId) => {
-    const deletedId = tasks.filter((item) => item.id !== taskId);
-    setTasks(deletedId);
+    dispatch(
+        {
+          type : "DeleteTask",
+          id : taskId
+        }
+      )
   };
 
   // const handleCheckBox = (taskId, checkedStatus) => {
@@ -33,11 +36,12 @@ function App() {
 
 
    const handleCheckBox = (task) => {
-      const nextTask = tasks.map((item)=>(
-        item.id === task.id ? task : item
-      ))
-
-      setTasks(nextTask)
+      dispatch(
+        {
+          type : "CheckBox",
+          task
+        }
+      )
   };
 
   // const handleInput = (taskId, e)=>{
